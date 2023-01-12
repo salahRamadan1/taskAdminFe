@@ -1,0 +1,67 @@
+<div class=" container           ">
+    <p class=" text-center  bg-info   w-25 rounded-4 mx-auto fw-bold"> التحصيل من المناديب </p>
+
+    <div *ngIf="err" class=" text-center mt-5 bg-danger py-2 w-25 rounded-4 mx-auto fw-bold">
+        {{err|uppercase}}
+    </div>
+    <div *ngFor="let order of date" class=" shadow-lg rounded-3 py-2 row mt-3 align-items-center ">
+        <!--  img -->
+        <div class=" col-md-3"> <img [src]=" order.productOrder.product_Pic" class=" rounded-3" alt=""></div>
+        <!-- info product -->
+        <div class=" col-md-3">
+            <p class=" text-bg-success  w-75 text-center rounded-3">information for product</p>
+            <p> اسم المنتج :<span class=" fw-bolder text-info"> {{order.productOrder.productName}}</span> </p>
+            <p>شرح المنتج :<span class=" fw-bolder text-info">{{order.productOrder.productTitle}}</span></p>
+            <p>سعر المنتج :<span class=" fw-bolder text-info">{{order.productOrder.productPriceFinal}}</span></p>
+        </div>
+        <!-- info user -->
+        <div class=" col-md-3">
+            <p class=" text-bg-success  w-75 text-center rounded-3">معلومات العميل</p>
+            <p>اسم العميل :<span class=" fw-bolder text-info"> {{order.userId.firstName}}
+                    {{order.userId.lastName}}</span></p>
+            <p>تليفون العميل :<span class=" fw-bolder text-info">{{order.userId.Phone}} </span></p>
+            <p>عنوان العميل :<span class=" fw-bolder text-info">{{order.userId.addresses}}</span></p>
+        </div>
+        <!-- info details product buy -->
+        <div class=" col-md-3 text-center">
+            <p class=" text-bg-success  w-75 text-center rounded-3 ">معلومات اضافيه </p>
+            <p><span class=" fw-bolder text-info">العدد :{{order.count}}</span></p>
+            <p><span class=" fw-bolder text-info" *ngIf="!isOne">السعر مضروب في العدد (التحصيل)
+                    :{{order.productOrder.productPriceFinal}}</span>
+            </p>
+            <p><span class=" fw-bolder text-info" *ngIf="isOne">السعر مضروب في العدد (التحصيل) :{{order.price}}</span>
+            </p>
+            <p> تم تسليم المنتج للعميل :<span class=" fw-bolder text-info"> {{order.userId.firstName}}
+                    {{order.userId.lastName}}</span> </p>
+            <button class=" btn btn-outline-info  mb-2" (click)="getIdPro(order._id)" data-bs-toggle="modal"
+                data-bs-target="#exampleModal"> التحصيل من المندوب</button>
+            <p>اسم المنوب المرسل <span class=" fw-bolder text-info "> : {{order.manDop}} </span></p>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <h5 class=" text-center alert alert-success">تاكيد استلام المال من المندوب</h5>
+
+                <div class=" d-flex justify-content-center justify-content-between">
+
+                    <button type="submit" class="btn btn-primary   w-100" (click)="updateMonyOwner()"> تأكيد</button>
+                    <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">الغاء</button>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

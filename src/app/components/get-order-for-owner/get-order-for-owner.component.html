@@ -1,0 +1,63 @@
+<div class=" container ">
+    <p class=" text-center  bg-info   w-25 rounded-4 mx-auto fw-bold">كل الاوردرات </p>
+    <div *ngIf="err" class=" text-center mt-5 bg-danger py-2 w-25 rounded-4 mx-auto fw-bold">
+        {{err|uppercase}}
+    </div>
+    <div *ngFor="let order of date" class=" shadow-lg rounded-3 py-2 row mt-3 align-items-center ">
+        <!--  img -->
+        <div class=" col-md-3"> <img [src]=" order.productOrder.product_Pic" class=" rounded-3" alt=""></div>
+        <!-- info product -->
+        <div class=" col-md-3">
+            <p class=" text-bg-success  w-75 text-center rounded-3">معلومات المنتج</p>
+            <p> اسم المنتج :<span class=" fw-bolder text-info"> {{order.productOrder.productName}}</span> </p>
+            <p> شرح المنتج :<span class=" fw-bolder text-info">{{order.productOrder.productTitle}}</span></p>
+            <p>سعر المنتج :<span class=" fw-bolder text-info">{{order.productOrder.productPriceFinal}}</span></p>
+        </div>
+        <!-- info user -->
+        <div class=" col-md-3">
+            <p class=" text-bg-success  w-75 text-center rounded-3">معلةمات العميل</p>
+
+            <p>اسم العميل :<span class=" fw-bolder text-info"> {{order.userId.firstName}}
+                    {{order.userId.lastName}}</span></p>
+            <p>تليفون العميل :<span class=" fw-bolder text-info">{{order.userId.Phone}} </span></p>
+            <p>عنوان العميل :<span class=" fw-bolder text-info">{{order.userId.addresses}}</span></p>
+        </div>
+        <!-- info details product buy -->
+        <div class=" col-md-3 text-center">
+            <p class=" text-bg-success  w-75 text-center rounded-3 ">معلةمات اضافيه </p>
+            <p><span class=" fw-bolder text-info">العدد :{{order.count}}</span></p>
+            <p><span class=" fw-bolder text-info" *ngIf="!isOne">السعر مضروب في العدد (التحصيل)
+                    :{{order.productOrder.productPriceFinal}}</span>
+            </p>
+            <p><span class=" fw-bolder text-info" *ngIf="isOne">السعر مضروب في العدد (التحصيل) :{{order.price}}</span>
+            </p>
+            <button class=" btn btn-outline-info" (click)="getIdOrder(order._id)" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">ارسال المندوب</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- model manDop -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title fs-5" id="exampleModalLabel"> المندوب</h1>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formManDop" (ngSubmit)="sendManDop()">
+                    <label for="manDop">اسم المندوب</label>
+                    <input formControlName="manDop" type="text" class=" form-control">
+                    <button type="submit" [disabled]="formManDop.invalid " class="btn btn-primary mt-2"> ارسال</button>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+<div class=" container my-5 pt-5">
+
+    <div class=" alert alert-danger text-dark " *ngIf="errGetPro">{{errGetPro}}</div>
+    <div class=" row g-5 mt-1">
+        <div *ngFor="let product of data" class=" col-md-4">
+            <div class=" item  shadow-lg rounded-2 p-2">
+
+                <div style="z-index: 5;" class=" d-flex justify-content-between">
+                    <p (click)="deletePro(product._id)" ><i style=" cursor:pointer"
+                            class="fa-solid fa-trash delete"></i></p>
+                
+                    <i style=" cursor:pointer" class="fa-solid fa-pen-to-square update "></i>
+                    
+                </div>
+                <img [src]="product.product_Pic" class="w-100 mb-1 rounded-4" alt="">
+
+                <h4 class="ms-2"> اسم المنتج {{product.productName}}</h4>
+
+                <p> شرح المنتج {{product.productTitle}}.</p>
+                <p> سعر المنتجج <span class=" text-success fw-bold">{{product.productPriceFinal}}</span> </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div style="z-index: 100000;" class=" position-fixed top-0 start-0">
+    <div id="mySidenav" class="sidenav ">
+        <p (click)="closeNav()" class="  me-3  float-end"><i class="fa-solid fa-xmark"></i></p>
+        <div class=" clearfix"></div>
+        <div class=" parent   mx-5   ">
+            <div class=" Child  bg-white rounded-3 p-5">
+                <p class=" bg-danger text-white p-3 rounded-3 text-center" *ngIf="errSendDate">{{errSendDate}}</p>
+                <form [formGroup]="formProduct" (ngSubmit)="sendData()">
+                    <!-- name -->
+                    <div class=" name mb-3">
+                        <label for="name" class=" fw-bolder">اسم المنتج</label>
+                        <input type="text" formControlName="productName" id='name' class=" form-control w-100">
+                        <!-- validation -->
+                        <div class=" text-danger text-start"
+                            *ngIf="formProduct.get('productName')?.errors &&formProduct.get('productName')?.touched">
+                            <p *ngIf="formProduct.get('productName')?.errors?.['required']">اسم المنتج فارغ</p>
+                            <p *ngIf="formProduct.get('productName')?.errors?.['maxlength']"> اكثر عدد حروف 15
+                            </p>
+                            <p *ngIf="formProduct.get('productName')?.errors?.['minlength']"> اقل عدد حروف 3
+                            </p>
+                        </div>
+                    </div>
+                    <!-- title -->
+                    <div class=" Title mb-3">
+                        <label for="Title" class=" fw-bolder">شرح المنتج</label>
+                        <input type="text" formControlName="productTitle" id='Title' class=" form-control w-100">
+                        <!-- validation -->
+                        <div class=" text-danger text-start"
+                            *ngIf="formProduct.get('productTitle')?.errors &&formProduct.get('productTitle')?.touched">
+                            <p *ngIf="formProduct.get('productTitle')?.errors?.['required']"> شرح المنتج فارغ</p>
+                            <p *ngIf="formProduct.get('productTitle')?.errors?.['maxlength']"> اكثر عدد حروف 50
+                            </p>
+                            <p *ngIf="formProduct.get('productTitle')?.errors?.['minlength']"> اقل عدد حروف 5
+                            </p>
+                        </div>
+                    </div>
+                    <div class="price img d-flex mb-3">
+                        <!-- price -->
+                        <input type="number" id='price' formControlName="productPriceFinal"
+                            class=" form-control w-100  me-2 " placeholder="سعر المنتج">
+                        <br>
+                        <!-- validation -->
+                        <div class=" text-danger text-start"
+                            *ngIf="formProduct.get('productPriceFinal')?.errors &&formProduct.get('productPriceFinal')?.touched">
+                            <p *ngIf="formProduct.get('productPriceFinal')?.errors?.['required']">سعر المنتج فارغ</p>
+
+                        </div>
+                        <!-- **************** -->
+                        <!-- img -->
+                        <label for="img" class=" btn btn-secondary w-100 ">اختر صوره واحده للمنتج</label>
+                        <input type="file" (change)="choosePhoto($event)" formControlName="product_Pic" id='img'
+                            class="form-control w-100 d-none">
+                    </div>
+                    <!-- Button -->
+                    <button type="submit" [disabled]="formProduct.invalid" class=" btn btn-info"
+                        id="btnSend">اضافه</button>
+                </form>
+                <div *ngIf="successAdded" class=" alert alert-success mt-3 text-center" id="successAdded">
+                    {{successAdded}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main" class="  ms-5">
+        <span style="font-size:30px;cursor:pointer" (click)="openNav()"> <i
+                class="fa-solid fa-plus bg-black text-white p-3 rounded-5 shadow-lg"></i></span>
+    </div>
+</div>
+<!-- Button add -->
